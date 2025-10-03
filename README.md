@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# stopwatch
 
-## Getting Started
+a next.js project with tailwind css and shadcn/ui
 
-First, run the development server:
+## getting started
+
+run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## what's included
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **next.js 15** - react framework with app router
+- **typescript** - type-safe javascript
+- **tailwind css v4** - utility-first css framework
+- **shadcn/ui** - beautiful, accessible component library
 
-## Learn More
+## adding components
 
-To learn more about Next.js, take a look at the following resources:
+add new shadcn/ui components:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add dialog
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+browse all components at [ui.shadcn.com](https://ui.shadcn.com)
 
-## Deploy on Vercel
+## project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+stopwatch/
+├── app/                    # next.js app router
+│   ├── layout.tsx         # root layout
+│   ├── page.tsx           # home page
+│   └── globals.css        # global styles
+├── components/            # react components
+│   └── ui/               # shadcn/ui components
+├── lib/                  # utility functions
+└── components.json       # shadcn/ui config
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## learn more
+
+- [next.js docs](https://nextjs.org/docs)
+- [tailwind css docs](https://tailwindcss.com/docs)
+- [shadcn/ui docs](https://ui.shadcn.com)
