@@ -1,12 +1,15 @@
+import { memo } from "react"
+
 interface SevenSegmentDigitProps {
   digit: string
   size?: "sm" | "md" | "lg"
   width?: number
   height?: number
   thickness?: number
+  opacity?: number
 }
 
-export function SevenSegmentDigit({ digit, size = "md", width: customWidth, height: customHeight, thickness: customThickness }: SevenSegmentDigitProps) {
+export const SevenSegmentDigit = memo(function SevenSegmentDigit({ digit, size = "md", width: customWidth, height: customHeight, thickness: customThickness, opacity = 1 }: SevenSegmentDigitProps) {
   const segments = {
     "0": [true, true, true, false, true, true, true],
     "1": [false, false, true, false, false, true, false],
@@ -46,7 +49,7 @@ export function SevenSegmentDigit({ digit, size = "md", width: customWidth, heig
       width={width} 
       height={height} 
       viewBox={`0 0 ${width} ${height}`}
-      style={{ display: 'block' }}
+      style={{ display: 'block', opacity }}
     >
       {/* segment a (top) */}
       <path
@@ -168,5 +171,5 @@ export function SevenSegmentDigit({ digit, size = "md", width: customWidth, heig
       />
     </svg>
   )
-}
+})
 
