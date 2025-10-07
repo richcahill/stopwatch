@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Timer } from "lucide-react"
+import Link from "next/link";
+import { Timer } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { ThemePicker } from "@/components/theme-picker"
+} from "@/components/ui/navigation-menu";
+import { ThemePicker } from "@/components/theme-picker";
 
 export function Navbar() {
   return (
@@ -20,30 +20,31 @@ export function Navbar() {
             <Timer className="h-6 w-6" />
             <span className="text-xl font-bold">stopwatch</span>
           </Link>
-          
+
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/" passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    home
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/">home</Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/fullscreen" passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    fullscreen
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/fullscreen">fullscreen</Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        
+
         <ThemePicker />
       </div>
     </header>
-  )
+  );
 }
-
