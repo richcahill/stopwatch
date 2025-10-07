@@ -30,18 +30,22 @@ export function LapTimes({ laps }: LapTimesProps) {
       : null;
 
   if (laps.length === 0) {
-    return null;
+    return (
+      <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+        no laps recorded yet
+      </div>
+    );
   }
 
   return (
-    <div className="w-full max-w-md mt-4">
-      <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
+    <div className="w-full h-full flex flex-col">
+      <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 flex-1 flex flex-col">
         <div className="px-4 py-2 grid grid-cols-3 gap-4 text-sm font-medium">
           <div>lap</div>
           <div className="text-right">split time</div>
           <div className="text-right">total time</div>
         </div>
-        <div className="max-h-64 overflow-y-auto bg-background rounded-[0.9rem]">
+        <div className="flex-1 overflow-y-auto bg-background rounded-[0.9rem]">
           {laps.map((lap) => {
             const isFastest =
               fastestLap &&

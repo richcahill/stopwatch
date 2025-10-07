@@ -8,7 +8,9 @@ import {
   Flag,
   Maximize2,
   Minimize2,
+  Keyboard,
 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface StopwatchControlsProps {
   isRunning: boolean;
@@ -81,20 +83,45 @@ export function StopwatchControls({
             )}
           </Button>
         )}
+        {showKeyboardHints && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button size="lg" variant="ghost">
+                <Keyboard className="h-5 w-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm">keyboard shortcuts</h4>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">start/pause</span>
+                    <kbd className="px-2 py-1 bg-muted rounded text-xs">
+                      space
+                    </kbd>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">lap</span>
+                    <kbd className="px-2 py-1 bg-muted rounded text-xs">l</kbd>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">reset</span>
+                    <kbd className="px-2 py-1 bg-muted rounded text-xs">r</kbd>
+                  </div>
+                  {showFullscreenToggle && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">fullscreen</span>
+                      <kbd className="px-2 py-1 bg-muted rounded text-xs">
+                        f
+                      </kbd>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
-      {showKeyboardHints && (
-        <p className="text-sm text-muted-foreground">
-          press <kbd className="px-2 py-1 bg-muted rounded">space</kbd> to
-          start/pause, <kbd className="px-2 py-1 bg-muted rounded">l</kbd> for
-          lap, <kbd className="px-2 py-1 bg-muted rounded">r</kbd> to reset
-          {showFullscreenToggle && (
-            <>
-              , <kbd className="px-2 py-1 bg-muted rounded">f</kbd> to toggle
-              fullscreen
-            </>
-          )}
-        </p>
-      )}
     </div>
   );
 }
