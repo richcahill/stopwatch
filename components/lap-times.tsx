@@ -34,14 +34,14 @@ export function LapTimes({ laps }: LapTimesProps) {
   }
 
   return (
-    <div className="w-full max-w-md mt-4">
+    <div className="w-fit min-w-full">
       <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
         <div className="px-4 py-2 grid grid-cols-3 gap-4 text-sm font-medium">
           <div>lap</div>
           <div className="text-right">split time</div>
           <div className="text-right">total time</div>
         </div>
-        <div className="max-h-64 overflow-y-auto bg-background rounded-[0.9rem]">
+        <div className="max-h-64 overflow-y-auto bg-background rounded-[0.8rem] w-full">
           {laps.map((lap) => {
             const isFastest =
               fastestLap &&

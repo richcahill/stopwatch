@@ -1,55 +1,144 @@
-import { memo } from "react"
-import { SevenSegmentDigit } from "./seven-segment-digit"
+"use client";
+
+import { memo, useState, useEffect, useRef, forwardRef } from "react";
+import { SevenSegmentDigit } from "./seven-segment-digit";
 
 interface SevenSegmentDisplayProps {
-  value: string
-  size?: "sm" | "md" | "lg"
-  digitWidth?: number
-  digitHeight?: number
-  colonWidth?: number
-  thickness?: number
-  gap?: number
+  value: string;
+  size?: "sm" | "md" | "lg";
+  isFullscreen?: boolean;
+  controlsHeight?: number;
 }
 
-export const SevenSegmentDisplay = memo(function SevenSegmentDisplay({ value, size = "md", digitWidth, digitHeight, colonWidth, thickness, gap = 4 }: SevenSegmentDisplayProps) {
-  // detect leading zeros
-  let foundNonZero = false
-  const chars = value.split("")
-  
-  return (
-    <div className="flex items-center justify-center" style={{ gap: `${gap}px` }}>
-      {chars.map((char, index) => {
-        if (char === ":") {
-          const dotSize = thickness ?? 8
-          const gapBetweenDots = (digitHeight ? digitHeight / 3 : 20)
-          const colonOpacity = foundNonZero ? 1 : 0.2
-          return (
-            <div key={index} className="flex flex-col justify-center items-center mx-1" style={{ width: colonWidth, height: digitHeight, opacity: colonOpacity }}>
-              <div className="bg-foreground" style={{ width: dotSize, height: dotSize }}></div>
-              <div style={{ height: gapBetweenDots }}></div>
-              <div className="bg-foreground" style={{ width: dotSize, height: dotSize }}></div>
-            </div>
-          )
-        }
-        
-        const isLeadingZero = !foundNonZero && char === "0"
-        if (char !== "0") {
-          foundNonZero = true
-        }
-        
-        return (
-          <SevenSegmentDigit 
-            key={index} 
-            digit={char} 
-            size={size} 
-            width={digitWidth} 
-            height={digitHeight} 
-            thickness={thickness}
-            opacity={isLeadingZero ? 0.2 : 1}
-          />
-        )
-      })}
-    </div>
-  )
-})
+export const SevenSegmentDisplay = memo(
+  forwardRef<HTMLDivElement, SevenSegmentDisplayProps>(
+    function SevenSegmentDisplay(
+      { value, size = "md", isFullscreen = false, controlsHeight = 140 },
+      ref
+    ) {
+      const SEGMENT_THICKNESS_MULTIPLIER = 2.0;
 
+      const [digitWidth, setDigitWidth] = useState(60);
+      const [digitHeight, setDigitHeight] = useState(100);
+      const [colonWidth, setColonWidth] = useState(16);
+      const [thickness, setThickness] = useState(7);
+      const [gap, setGap] = useState(8);
+
+      const internalRef = useRef<HTMLDivElement>(null);
+      const containerRef =
+        (ref as React.RefObject<HTMLDivElement>) || internalRef;
+
+      useEffect(() => {
+        if (!isFullscreen) {
+          setDigitWidth(60);
+          setDigitHeight(100);
+          setColonWidth(16);
+          setThickness(7);
+          setGap(8);
+          return;
+        }
+
+        const calculateDimensions = () => {
+          if (!containerRef.current) return;
+
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight - 64;
+
+          const padding = 40;
+
+          const screenArea = viewportWidth * viewportHeight;
+          const areaDimension = Math.sqrt(screenArea);
+          const newThickness = Math.max(
+            5,
+            areaDimension * 0.008 * SEGMENT_THICKNESS_MULTIPLIER
+          );
+
+          const newGap = Math.max(8, areaDimension * 0.008);
+
+          const newDigitHeight = viewportHeight - padding * 2 - controlsHeight;
+
+          const newColonWidth = areaDimension * 0.01;
+          const totalGaps = newGap * 7;
+          const availableWidth =
+            viewportWidth - padding * 2 - totalGaps - newColonWidth * 2;
+          const newDigitWidth = availableWidth / 6;
+
+          setDigitHeight(newDigitHeight);
+          setDigitWidth(newDigitWidth);
+          setColonWidth(newColonWidth);
+          setThickness(newThickness);
+          setGap(newGap);
+        };
+
+        calculateDimensions();
+        window.addEventListener("resize", calculateDimensions);
+        return () => window.removeEventListener("resize", calculateDimensions);
+      }, [
+        isFullscreen,
+        controlsHeight,
+        containerRef,
+        SEGMENT_THICKNESS_MULTIPLIER,
+      ]);
+
+      // detect leading zeros
+      let foundNonZero = false;
+      const chars = value.split("");
+
+      return (
+        <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 w-fit">
+          <div
+            ref={containerRef}
+            className="flex items-center justify-center bg-background rounded-[0.8rem] py-8 px-12"
+            style={{ gap: `${gap}px` }}
+          >
+            {chars.map((char, index) => {
+              if (char === ":") {
+                const dotSize = thickness ?? 8;
+                const gapBetweenDots = digitHeight ? digitHeight / 3 : 20;
+                const colonOpacity = foundNonZero ? 1 : 0.2;
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-col justify-center items-center mx-1"
+                    style={{
+                      width: colonWidth,
+                      height: digitHeight,
+                      opacity: colonOpacity,
+                    }}
+                  >
+                    <div
+                      className="bg-foreground"
+                      style={{ width: dotSize, height: dotSize }}
+                    ></div>
+                    <div style={{ height: gapBetweenDots }}></div>
+                    <div
+                      className="bg-foreground"
+                      style={{ width: dotSize, height: dotSize }}
+                    ></div>
+                  </div>
+                );
+              }
+
+              const isLeadingZero = !foundNonZero && char === "0";
+              if (char !== "0") {
+                foundNonZero = true;
+              }
+
+              return (
+                <SevenSegmentDigit
+                  key={index}
+                  digit={char}
+                  size={size}
+                  width={digitWidth}
+                  height={digitHeight}
+                  thickness={thickness}
+                  opacity={isLeadingZero ? 0.2 : 1}
+                />
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+  )
+);
