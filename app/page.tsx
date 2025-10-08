@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { SevenSegmentDisplay } from "@/components/seven-segment-display";
 import { LapTimes } from "@/components/lap-times";
 import { StopwatchControls } from "@/components/stopwatch-controls";
@@ -43,6 +43,16 @@ export default function Home() {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [handleStartStop, handleReset, handleLap, toggleFullscreen]);
+
+  // round to nearest second for title updates (performance optimization)
+  const roundedTime = useMemo(() => Math.floor(time / 1000) * 1000, [time]);
+
+  // update document title with stopwatch time
+  useEffect(() => {
+    const { minutes, seconds } = formatTime(roundedTime);
+
+    document.title = `STOPWATCH - ${minutes}:${seconds}`;
+  }, [roundedTime, formatTime]);
 
   const { minutes, seconds, milliseconds } = formatTime(time);
 
