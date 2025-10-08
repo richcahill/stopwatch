@@ -1,52 +1,51 @@
-# stopwatch
+# Stopwatch
 
-a next.js project with tailwind css and shadcn/ui
+A simple stopwatch app. Currently hosted at [stopwatch.richmak.es](https://stopwatch.richmak.es).
 
-## getting started
+## Getting Started
 
-run the development server:
+Install dependencies:
+
+```bash
+npm i
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## what's included
-
-- **next.js 15** - react framework with app router
-- **typescript** - type-safe javascript
-- **tailwind css v4** - utility-first css framework
-- **shadcn/ui** - beautiful, accessible component library
-
-## adding components
-
-add new shadcn/ui components:
+Build for production:
 
 ```bash
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add dialog
+npm run build
 ```
 
-browse all components at [ui.shadcn.com](https://ui.shadcn.com)
+## Features
 
-## project structure
+Built a custom 7-segment display using SVG paths with octagonal beveled segments. Gives it that analog calculator feel.
 
-```
-stopwatch/
-├── app/                    # next.js app router
-│   ├── layout.tsx         # root layout
-│   ├── page.tsx           # home page
-│   └── globals.css        # global styles
-├── components/            # react components
-│   └── ui/               # shadcn/ui components
-├── lib/                  # utility functions
-└── components.json       # shadcn/ui config
-```
+Lap tracking with automatic fastest/slowest detection. The lap entries slide in with CSS animations.
 
-## learn more
+Keyboard shortcuts for everything: `Space` to start/pause, `L` for lap, `R` for reset, `F` for fullscreen.
 
-- [next.js docs](https://nextjs.org/docs)
-- [tailwind css docs](https://tailwindcss.com/docs)
-- [shadcn/ui docs](https://ui.shadcn.com)
+Fullscreen mode dynamically sizes the display based on viewport dimensions.
+
+Theme picker supports light, dark, and system preferences.
+
+## Performance Notes
+
+Uses `requestAnimationFrame` with `performance.now()` for accurate timing. Updates every 10ms but tracks time internally at higher precision.
+
+Document title updates are throttled to whole seconds to avoid unnecessary renders.
+
+Leading zeros fade out for cleaner display.
+
+## Current Limitations
+
+Only displays mm:ss:ms format. Doesn't support hours yet. We'll add that when needed for longer sessions.
+
+## Tech Stack
+
+Built with Next.js 15, React 19, TypeScript, and Tailwind CSS v4. Uses Turbopack for faster builds.
