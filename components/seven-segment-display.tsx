@@ -51,9 +51,11 @@ export const SevenSegmentDisplay = memo(
           if (!containerRef.current) return;
 
           const viewportWidth = window.innerWidth;
-          const viewportHeight = window.innerHeight - 64;
+          const viewportHeight = window.innerHeight;
 
-          const padding = 40;
+          const containerPadding = 32;
+          const displayPadding = 64;
+          const labelHeight = 32;
 
           const screenArea = viewportWidth * viewportHeight;
           const areaDimension = Math.sqrt(screenArea);
@@ -64,12 +66,20 @@ export const SevenSegmentDisplay = memo(
 
           const newGap = Math.max(8, areaDimension * 0.008);
 
-          const newDigitHeight = viewportHeight - padding * 2 - controlsHeight;
+          const newDigitHeight =
+            viewportHeight -
+            containerPadding * 2 -
+            displayPadding * 2 -
+            labelHeight;
 
           const newColonWidth = areaDimension * 0.01;
           const totalGaps = newGap * 7;
           const availableWidth =
-            viewportWidth - padding * 2 - totalGaps - newColonWidth * 2;
+            viewportWidth -
+            containerPadding * 2 -
+            displayPadding * 2 -
+            totalGaps -
+            newColonWidth * 2;
           const newDigitWidth = availableWidth / 6;
 
           setDigitHeight(newDigitHeight);

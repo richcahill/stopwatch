@@ -47,36 +47,43 @@ export default function Home() {
   const { minutes, seconds, milliseconds } = formatTime(time);
 
   return (
-    <div className="relative">
-      <div
-        className={
-          isFullscreen
-            ? "flex flex-col items-center justify-center h-[calc(100vh-4rem)] gap-2"
-            : "flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-2 py-8"
-        }
-      >
-        <div className="flex flex-col items-center gap-2 px-4">
+    <>
+      <div className="relative">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-2 py-8">
+          <div className="flex flex-col items-center gap-2 px-4">
+            <SevenSegmentDisplay
+              value={`${minutes}:${seconds}:${milliseconds}`}
+              size="lg"
+              isFullscreen={false}
+              onToggleFullscreen={toggleFullscreen}
+            />
+            <div className="w-fit min-w-full">
+              <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
+                <StopwatchControls
+                  isRunning={isRunning}
+                  time={time}
+                  onStartStop={handleStartStop}
+                  onLap={handleLap}
+                  onReset={handleReset}
+                  showFullscreenToggle={false}
+                />
+              </div>
+            </div>
+            <LapTimes laps={laps} />
+          </div>
+        </div>
+      </div>
+
+      {isFullscreen && (
+        <div className="fixed inset-0 z-50 bg-background flex items-center justify-center p-8">
           <SevenSegmentDisplay
             value={`${minutes}:${seconds}:${milliseconds}`}
             size="lg"
-            isFullscreen={isFullscreen}
+            isFullscreen={true}
             onToggleFullscreen={toggleFullscreen}
           />
-          <div className="w-fit min-w-full">
-            <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
-              <StopwatchControls
-                isRunning={isRunning}
-                time={time}
-                onStartStop={handleStartStop}
-                onLap={handleLap}
-                onReset={handleReset}
-                showFullscreenToggle={false}
-              />
-            </div>
-          </div>
-          <LapTimes laps={laps} />
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
