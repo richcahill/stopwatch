@@ -2,18 +2,27 @@
 
 import { memo, useState, useEffect, useRef, forwardRef } from "react";
 import { SevenSegmentDigit } from "./seven-segment-digit";
+import { Button } from "./ui/button";
+import { Maximize2, Minimize2 } from "lucide-react";
 
 interface SevenSegmentDisplayProps {
   value: string;
   size?: "sm" | "md" | "lg";
   isFullscreen?: boolean;
   controlsHeight?: number;
+  onToggleFullscreen?: () => void;
 }
 
 export const SevenSegmentDisplay = memo(
   forwardRef<HTMLDivElement, SevenSegmentDisplayProps>(
     function SevenSegmentDisplay(
-      { value, size = "md", isFullscreen = false, controlsHeight = 140 },
+      {
+        value,
+        size = "md",
+        isFullscreen = false,
+        controlsHeight = 140,
+        onToggleFullscreen,
+      },
       ref
     ) {
       const SEGMENT_THICKNESS_MULTIPLIER = 2.0;
@@ -85,7 +94,25 @@ export const SevenSegmentDisplay = memo(
       const chars = value.split("");
 
       return (
-        <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 w-fit">
+        <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 w-fit relative flex flex-col">
+          <div className="px-3 py-2 pb-3 text-xs font-mono tracking-widest text-muted-foreground flex justify-between items-start">
+            <div>STOPWATCH</div>
+            {onToggleFullscreen && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={onToggleFullscreen}
+                className=" top-2 right-2 z-10 h-6 w-6 -m-1"
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="h-3.5 w-3.5" />
+                ) : (
+                  <Maximize2 className="h-3.5 w-3.5" />
+                )}
+              </Button>
+            )}
+          </div>
+
           <div
             ref={containerRef}
             className="flex items-center justify-center bg-background rounded-[0.8rem] py-8 px-12"

@@ -60,6 +60,7 @@ export default function Home() {
             value={`${minutes}:${seconds}:${milliseconds}`}
             size="lg"
             isFullscreen={isFullscreen}
+            onToggleFullscreen={toggleFullscreen}
           />
           <LapTimes laps={laps} />
         </div>
@@ -74,8 +75,7 @@ export default function Home() {
             onStartStop={handleStartStop}
             onLap={handleLap}
             onReset={handleReset}
-            isFullscreen={isFullscreen}
-            onToggleFullscreen={toggleFullscreen}
+            showFullscreenToggle={false}
           />
         </div>
       </div>
