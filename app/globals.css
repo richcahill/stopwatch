@@ -130,3 +130,61 @@
 button {
   cursor: pointer;
 }
+
+/* slide up animation for lap times */
+.animate-slide-up {
+  display: grid;
+  grid-template-rows: 0fr;
+  animation: containerExpand 0.3s ease-in-out forwards;
+}
+
+.animate-slide-up > * {
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: contentSlideUp 0.3s ease-in-out 0.2s forwards;
+}
+
+@keyframes containerExpand {
+  to {
+    grid-template-rows: 1fr;
+  }
+}
+
+@keyframes contentSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* individual lap item animation */
+.laps-list > div:first-child {
+  display: grid;
+  grid-template-rows: 0fr;
+  animation: lapExpand 0.3s ease-in-out forwards;
+}
+
+.laps-list > div:first-child > * {
+  overflow: hidden;
+  opacity: 0;
+  animation: lapFade 0.2s ease-in-out 0.2s forwards;
+}
+
+@keyframes lapExpand {
+  from {
+    grid-template-rows: 0fr;
+  }
+  to {
+    grid-template-rows: 1fr;
+  }
+}
+
+@keyframes lapFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
