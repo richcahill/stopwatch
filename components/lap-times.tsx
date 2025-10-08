@@ -20,22 +20,24 @@ export function LapTimes({ laps }: LapTimesProps) {
     return `${minutes}:${secondsStr}.${msStr}`;
   };
 
-  const fastestLap = useMemo(() =>
-    laps.length > 0
-      ? laps.reduce((min, lap) => (lap.splitTime < min.splitTime ? lap : min))
-      : null,
+  const fastestLap = useMemo(
+    () =>
+      laps.length > 0
+        ? laps.reduce((min, lap) => (lap.splitTime < min.splitTime ? lap : min))
+        : null,
     [laps]
   );
 
-  const slowestLap = useMemo(() =>
-    laps.length > 0
-      ? laps.reduce((max, lap) => (lap.splitTime > max.splitTime ? lap : max))
-      : null,
+  const slowestLap = useMemo(
+    () =>
+      laps.length > 0
+        ? laps.reduce((max, lap) => (lap.splitTime > max.splitTime ? lap : max))
+        : null,
     [laps]
   );
 
   return (
-    <div className="w-fit min-w-full">
+    <div className="w-full">
       <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 flex flex-col">
         <div className="px-3 py-2 pb-3 text-xs font-mono tracking-widest text-muted-foreground grid grid-cols-3 gap-4">
           <div>LAPS</div>

@@ -48,28 +48,31 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative">
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-2 py-8">
-          <div className="flex flex-col items-center gap-2 px-4">
-            <SevenSegmentDisplay
-              value={`${minutes}:${seconds}:${milliseconds}`}
-              size="lg"
-              isFullscreen={false}
-              onToggleFullscreen={toggleFullscreen}
-            />
-            <div className="w-fit min-w-full">
-              <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
-                <StopwatchControls
-                  isRunning={isRunning}
-                  time={time}
-                  onStartStop={handleStartStop}
-                  onLap={handleLap}
-                  onReset={handleReset}
-                  showFullscreenToggle={false}
-                />
-              </div>
+      <div className="flex flex-col items-center h-[calc(100vh-4rem)] px-4">
+        <div className="flex flex-col w-fit h-full">
+          <div className="flex-1 overflow-auto flex flex-col items-center justify-center py-8">
+            <div className="flex flex-col items-center gap-2">
+              <SevenSegmentDisplay
+                value={`${minutes}:${seconds}:${milliseconds}`}
+                size="lg"
+                isFullscreen={false}
+                onToggleFullscreen={toggleFullscreen}
+              />
+              <LapTimes laps={laps} />
             </div>
-            <LapTimes laps={laps} />
+          </div>
+
+          <div className="flex-shrink-0 pb-4">
+            <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
+              <StopwatchControls
+                isRunning={isRunning}
+                time={time}
+                onStartStop={handleStartStop}
+                onLap={handleLap}
+                onReset={handleReset}
+                showFullscreenToggle={false}
+              />
+            </div>
           </div>
         </div>
       </div>
