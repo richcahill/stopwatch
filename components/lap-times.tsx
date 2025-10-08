@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import type { Lap } from "@/lib/useStopwatch";
 
 interface LapTimesProps {
@@ -19,15 +20,19 @@ export function LapTimes({ laps }: LapTimesProps) {
     return `${minutes}:${secondsStr}.${msStr}`;
   };
 
-  const fastestLap =
+  const fastestLap = useMemo(() =>
     laps.length > 0
       ? laps.reduce((min, lap) => (lap.splitTime < min.splitTime ? lap : min))
-      : null;
+      : null,
+    [laps]
+  );
 
-  const slowestLap =
+  const slowestLap = useMemo(() =>
     laps.length > 0
       ? laps.reduce((max, lap) => (lap.splitTime > max.splitTime ? lap : max))
-      : null;
+      : null,
+    [laps]
+  );
 
   return (
     <div className="w-fit min-w-full">

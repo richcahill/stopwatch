@@ -31,22 +31,37 @@ export function useStopwatch(): UseStopwatchReturn {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [laps, setLaps] = useState<Lap[]>([]);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(0);
+  const accumulatedTimeRef = useRef<number>(0);
 
   useEffect(() => {
     if (isRunning) {
-      intervalRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+      // capture the exact start time, accounting for any previously accumulated time
+      startTimeRef.current = performance.now() - accumulatedTimeRef.current;
+
+      const updateTime = () => {
+        const now = performance.now();
+        const elapsed = now - startTimeRef.current;
+
+        // round to nearest 10ms for display (but track accurate time internally)
+        const roundedTime = Math.floor(elapsed / 10) * 10;
+        setTime(roundedTime);
+        accumulatedTimeRef.current = elapsed;
+
+        animationRef.current = requestAnimationFrame(updateTime);
+      };
+
+      animationRef.current = requestAnimationFrame(updateTime);
     } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     }
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
   }, [isRunning]);
@@ -59,23 +74,26 @@ export function useStopwatch(): UseStopwatchReturn {
     setIsRunning(false);
     setTime(0);
     setLaps([]);
+    accumulatedTimeRef.current = 0;
   }, []);
 
   const handleLap = useCallback(() => {
     if (time === 0) return;
 
-    const previousLapTime = laps.length > 0 ? laps[0].totalTime : 0;
-    const splitTime = time - previousLapTime;
+    setLaps((prevLaps) => {
+      const previousLapTime = prevLaps.length > 0 ? prevLaps[0].totalTime : 0;
+      const splitTime = time - previousLapTime;
 
-    setLaps((prevLaps) => [
-      {
-        lapNumber: prevLaps.length + 1,
-        totalTime: time,
-        splitTime,
-      },
-      ...prevLaps,
-    ]);
-  }, [time, laps]);
+      return [
+        {
+          lapNumber: prevLaps.length + 1,
+          totalTime: time,
+          splitTime,
+        },
+        ...prevLaps,
+      ];
+    });
+  }, [time]);
 
   const formatTime = useCallback((milliseconds: number) => {
     const totalMinutes = Math.floor(milliseconds / 60000);

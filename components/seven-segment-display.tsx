@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState, useEffect, useRef, forwardRef } from "react";
+import { memo, useState, useEffect, useRef, forwardRef, useMemo } from "react";
 import { SevenSegmentDigit } from "./seven-segment-digit";
 import { Button } from "./ui/button";
 import { Maximize2, Minimize2 } from "lucide-react";
@@ -99,9 +99,11 @@ export const SevenSegmentDisplay = memo(
         SEGMENT_THICKNESS_MULTIPLIER,
       ]);
 
+      // memoize string split for better performance
+      const chars = useMemo(() => value.split(""), [value]);
+      
       // detect leading zeros
       let foundNonZero = false;
-      const chars = value.split("");
 
       return (
         <div className="border rounded-[1rem] overflow-hidden bg-muted p-1 w-fit relative flex flex-col">
