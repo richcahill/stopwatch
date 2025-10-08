@@ -44,7 +44,7 @@ export function LapTimes({ laps }: LapTimesProps) {
           <div className="text-right">SPLIT TIME</div>
           <div className="text-right">TOTAL TIME</div>
         </div>
-        <div className="max-h-64 overflow-y-auto bg-background rounded-[0.8rem] w-full">
+        <div className="max-h-64 overflow-y-auto bg-background rounded-[0.8rem] w-full laps-list">
           {laps.length === 0 ? (
             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
               no laps recorded yet

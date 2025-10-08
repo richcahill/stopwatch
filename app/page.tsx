@@ -58,7 +58,11 @@ export default function Home() {
                 isFullscreen={false}
                 onToggleFullscreen={toggleFullscreen}
               />
-              <LapTimes laps={laps} />
+              {laps.length > 0 && (
+                <div className="w-full animate-slide-up">
+                  <LapTimes laps={laps} />
+                </div>
+              )}
             </div>
           </div>
 
