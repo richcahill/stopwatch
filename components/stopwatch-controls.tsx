@@ -34,22 +34,22 @@ export function StopwatchControls({
   showKeyboardHints = false,
 }: StopwatchControlsProps) {
   return (
-    <div className="flex flex-col items-center gap-2 w-full">
-      <div className="flex gap-2">
+    <div className="flex flex-col items-center gap-2 w-full p-0">
+      <div className="flex gap-1 w-full">
         <Button
-          className="min-w-32 flex justify-between items-center"
+          className="flex-1 flex justify-between items-center font-mono tracking-wide rounded-[0.8rem]"
           size="lg"
           onClick={onStartStop}
-          variant={isRunning ? "secondary" : "default"}
+          variant={isRunning ? "outline" : "default"}
         >
           {isRunning ? (
             <>
-              pause
+              PAUSE
               <Pause className="h-5 w-5" />
             </>
           ) : (
             <>
-              start
+              START
               <Play className="h-5 w-5" />
             </>
           )}
@@ -59,13 +59,18 @@ export function StopwatchControls({
           onClick={onLap}
           variant="outline"
           disabled={time === 0}
-          className="flex justify-between items-center min-w-32"
+          className="flex justify-between items-center gap-2 font-mono tracking-wide rounded-[0.8rem]"
         >
-          lap
+          LAP
           <Flag className="h-5 w-5" />
         </Button>
-        <Button size="lg" onClick={onReset} variant="outline">
-          reset
+        <Button
+          size="lg"
+          onClick={onReset}
+          variant="outline"
+          className="flex justify-between items-center gap-2 font-mono tracking-wide rounded-[0.8rem]"
+        >
+          RESET
           <RotateCcw className="h-5 w-5" />
         </Button>
         {showFullscreenToggle && onToggleFullscreen && (
@@ -73,12 +78,12 @@ export function StopwatchControls({
             {isFullscreen ? (
               <>
                 <Minimize2 className="mr-2 h-5 w-5" />
-                compact
+                COMPACT
               </>
             ) : (
               <>
                 <Maximize2 className="mr-2 h-5 w-5" />
-                fullscreen
+                FULLSCREEN
               </>
             )}
           </Button>

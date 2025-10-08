@@ -51,32 +51,30 @@ export default function Home() {
       <div
         className={
           isFullscreen
-            ? "flex flex-col items-center justify-center h-[calc(100vh-4rem)] gap-2 pb-32"
-            : "flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-2 pb-32"
+            ? "flex flex-col items-center justify-center h-[calc(100vh-4rem)] gap-2"
+            : "flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] gap-2 py-8"
         }
       >
-        <div className="flex flex-col items-center gap-8 px-4">
+        <div className="flex flex-col items-center gap-2 px-4">
           <SevenSegmentDisplay
             value={`${minutes}:${seconds}:${milliseconds}`}
             size="lg"
             isFullscreen={isFullscreen}
             onToggleFullscreen={toggleFullscreen}
           />
+          <div className="w-fit min-w-full">
+            <div className="border rounded-[1rem] overflow-hidden bg-muted p-1">
+              <StopwatchControls
+                isRunning={isRunning}
+                time={time}
+                onStartStop={handleStartStop}
+                onLap={handleLap}
+                onReset={handleReset}
+                showFullscreenToggle={false}
+              />
+            </div>
+          </div>
           <LapTimes laps={laps} />
-        </div>
-      </div>
-
-      {/* dock-style controls at bottom */}
-      <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50 pointer-events-none">
-        <div className="pointer-events-auto backdrop-blur-xl bg-background/80 border rounded-2xl px-6 py-4 shadow-2xl">
-          <StopwatchControls
-            isRunning={isRunning}
-            time={time}
-            onStartStop={handleStartStop}
-            onLap={handleLap}
-            onReset={handleReset}
-            showFullscreenToggle={false}
-          />
         </div>
       </div>
     </div>
