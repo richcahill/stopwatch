@@ -31,25 +31,26 @@ export function StopwatchControls({
   isFullscreen = false,
   onToggleFullscreen,
   showFullscreenToggle = true,
-  showKeyboardHints = true,
+  showKeyboardHints = false,
 }: StopwatchControlsProps) {
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="flex gap-4">
+    <div className="flex flex-col items-center gap-2 w-full">
+      <div className="flex gap-2">
         <Button
+          className="min-w-32 flex justify-between items-center"
           size="lg"
           onClick={onStartStop}
           variant={isRunning ? "secondary" : "default"}
         >
           {isRunning ? (
             <>
-              <Pause className="mr-2 h-5 w-5" />
               pause
+              <Pause className="h-5 w-5" />
             </>
           ) : (
             <>
-              <Play className="mr-2 h-5 w-5" />
               start
+              <Play className="h-5 w-5" />
             </>
           )}
         </Button>
@@ -58,13 +59,14 @@ export function StopwatchControls({
           onClick={onLap}
           variant="outline"
           disabled={time === 0}
+          className="flex justify-between items-center min-w-32"
         >
-          <Flag className="mr-2 h-5 w-5" />
           lap
+          <Flag className="h-5 w-5" />
         </Button>
         <Button size="lg" onClick={onReset} variant="outline">
-          <RotateCcw className="mr-2 h-5 w-5" />
           reset
+          <RotateCcw className="h-5 w-5" />
         </Button>
         {showFullscreenToggle && onToggleFullscreen && (
           <Button size="lg" onClick={onToggleFullscreen} variant="outline">
