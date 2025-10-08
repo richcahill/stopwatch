@@ -74,7 +74,6 @@ export default function Home() {
                 onStartStop={handleStartStop}
                 onLap={handleLap}
                 onReset={handleReset}
-                showFullscreenToggle={false}
               />
             </div>
           </div>

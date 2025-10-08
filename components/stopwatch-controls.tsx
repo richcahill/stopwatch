@@ -15,10 +15,6 @@ interface StopwatchControlsProps {
   onStartStop: () => void;
   onLap: () => void;
   onReset: () => void;
-  isFullscreen?: boolean;
-  onToggleFullscreen?: () => void;
-  showFullscreenToggle?: boolean;
-  showKeyboardHints?: boolean;
 }
 
 export function StopwatchControls({
@@ -27,8 +23,6 @@ export function StopwatchControls({
   onStartStop,
   onLap,
   onReset,
-  showFullscreenToggle = true,
-  showKeyboardHints = false,
 }: StopwatchControlsProps) {
   return (
     <TooltipProvider>
