@@ -45,6 +45,7 @@ Leading zeros fade out for cleaner display.
 ## Current Limitations
 
 Only displays mm:ss:ms format. Doesn't support hours yet. We'll add that when needed for longer sessions.
+Is not responsive down to phone sizes. Needs better small screen handling and can perhaps be optimised / use a tweaked design.
 
 ## Tech Stack
 
